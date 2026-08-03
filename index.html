@@ -2,296 +2,467 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>A Question For You</title>
+<title>A Special Question For You 💌</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500;1,600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Pacifico&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --plum: #241726;
-    --plum-deep: #180e1a;
-    --blush: #e7b3bd;
-    --gold: #c9a24a;
-    --paper: #fbf5ee;
-    --ink: #382733;
-  }
-  *{ box-sizing: border-box; }
-  html,body{
-    margin:0; padding:0; height:100%;
-    background: radial-gradient(ellipse at 50% 20%, var(--plum) 0%, var(--plum-deep) 70%);
-    font-family: 'Jost', sans-serif;
-    overflow: hidden;
-  }
-  .sky{
-    position: fixed; inset:0; pointer-events:none; z-index:0;
-  }
-  .spark{
-    position:absolute; border-radius:50%;
-    background: var(--gold);
-    opacity:.55;
-    animation: twinkle 4s ease-in-out infinite;
-  }
-  @keyframes twinkle{
-    0%,100%{ opacity:.15; transform: scale(1); }
-    50%{ opacity:.75; transform: scale(1.4); }
+  :root {
+    --plum-bg: #110813;
+    --plum-card: rgba(36, 21, 41, 0.6);
+    --blush: #ffccd5;
+    --blush-glow: rgba(255, 204, 213, 0.4);
+    --gold: #ffde9c;
+    --gold-glow: rgba(255, 222, 156, 0.4);
+    --paper: #fffaf5;
+    --ink: #2b1b28;
+    --white: #ffffff;
   }
 
-  .stage{
-    position: relative; z-index:1;
-    height:100%; width:100%;
-    display:flex; align-items:center; justify-content:center;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    /* Gradient Aura Background */
+    background: 
+      linear-gradient(125deg, #201026 0%, #110813 100%),
+      radial-gradient(circle at 10% 10%, #3e1f47 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, #2e1736 0%, transparent 40%);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow: hidden;
+    color: var(--white);
+    position: relative;
+  }
+
+  /* Animated Dreamy Background Aura */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(88, 41, 88, 0.3) 0%, transparent 60%);
+    animation: auraPulse 8s ease-in-out infinite alternate;
+    z-index: 0;
+    pointer-events: none;
+  }
+  @keyframes auraPulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.2); opacity: 1; }
+  }
+
+  /* Texture Overlay */
+  .texture {
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3<defs%3<filter id='noiseFilter'%3<feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3</filter%3</defs%3<rect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3</svg%3");
+    opacity: 0.04;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Floating Decorative Emojis */
+  .decor {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+    font-size: 1.5rem;
+    animation: floatDrift linear infinite;
+  }
+  @keyframes floatDrift {
+    0% { transform: translateY(105vh) translateX(0px) rotate(0deg); }
+    100% { transform: translateY(-10vh) translateX(50px) rotate(360deg); }
+  }
+
+  .sky {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .spark {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: .4;
+    filter: blur(1px);
+    animation: twinkle 4s ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: .1; transform: scale(0.8); }
+    50% { opacity: .8; transform: scale(1.4); }
+  }
+
+  .stage {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
     padding: 24px;
   }
 
-  .prompt{
+  .prompt {
     color: var(--blush);
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: clamp(1.1rem, 2.6vw, 1.5rem);
-    letter-spacing: .02em;
-    margin-bottom: 34px;
-    opacity: .85;
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-bottom: 40px;
+    opacity: .9;
     text-align: center;
-    transition: opacity .4s ease;
+    transition: opacity .5s ease, transform .5s ease;
+    text-shadow: 0 0 15px var(--blush-glow);
   }
-  .prompt.hide{ opacity:0; height:0; margin:0; }
+  .prompt.hide {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+  }
 
   /* Envelope */
-  .envelope-wrap{
+  .envelope-wrap {
     position: relative;
-    width: min(320px, 78vw);
+    width: min(340px, 82vw);
     aspect-ratio: 3/2;
     cursor: pointer;
     perspective: 1200px;
-    transition: transform .3s ease;
+    transition: transform 0.3s ease;
+    animation: bob 4s ease-in-out infinite;
   }
-  .envelope-wrap:hover{ transform: translateY(-4px); }
-  .envelope-wrap.opened{ pointer-events:none; }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  .envelope-wrap:hover {
+    transform: translateY(-10px) scale(1.04);
+  }
+  .envelope-wrap.opened {
+    pointer-events: none;
+    animation: none;
+  }
 
-  .env-body{
-    position:absolute; inset:0;
-    background: linear-gradient(155deg, #3a2540, #2a1a2f);
-    border: 1px solid rgba(201,162,74,.35);
-    border-radius: 6px;
-    box-shadow: 0 20px 50px rgba(0,0,0,.45);
+  .env-body {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #321936, #1a0d1c);
+    border: 1px solid rgba(255, 222, 156, 0.15);
+    border-radius: 16px;
+    box-shadow: 
+      0 25px 60px -10px rgba(0, 0, 0, 0.7);
   }
-  .env-flap{
-    position:absolute; top:0; left:0; right:0; height:52%;
-    background: linear-gradient(155deg, #43293c, #301c34);
+
+  .env-flap {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 55%;
+    background: linear-gradient(160deg, #3e2043, #231327);
     clip-path: polygon(0 0, 100% 0, 50% 100%);
     transform-origin: top center;
-    transition: transform .7s cubic-bezier(.6,-0.2,.3,1.3);
-    border-radius: 6px 6px 0 0;
+    transition: transform .8s cubic-bezier(.6,-0.2,.3,1.3);
+    border-radius: 16px 16px 0 0;
     z-index: 3;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
   }
-  .env-flap::after{
-    content:'';
-    position:absolute; top:38%; left:50%; transform: translate(-50%,-50%);
-    width: 26px; height: 26px; border-radius:50%;
-    background: var(--gold);
-    box-shadow: 0 0 12px rgba(201,162,74,.6);
+
+  /* Cute Wax Seal */
+  .env-flap::after {
+    content: '💝';
+    position: absolute;
+    top: 42%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ffb3c1, #ff8fa3);
+    box-shadow: 0 4px 15px rgba(255,143,163,0.5), inset 0 1px 2px rgba(255,255,255,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
   }
-  .envelope-wrap.opened .env-flap{
+
+  .envelope-wrap.opened .env-flap {
     transform: rotateX(180deg);
     z-index: 1;
   }
 
-  .letter{
-    position:absolute;
-    left: 6%; right:6%;
-    bottom: 6%;
+  .letter {
+    position: absolute;
+    left: 8%; right: 8%;
+    bottom: 8%;
     height: 0%;
     background: var(--paper);
-    border-radius: 4px;
-    box-shadow: 0 8px 24px rgba(0,0,0,.35);
-    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     z-index: 2;
-    transition: height .6s cubic-bezier(.2,.7,.3,1.1) .35s, bottom .6s cubic-bezier(.2,.7,.3,1.1) .35s;
-  }
-  .envelope-wrap.opened .letter{
-    height: 230%;
-    bottom: 40%;
-  }
-
-  .hint{
-    position:absolute; bottom: -34px; left:0; right:0;
-    text-align:center;
-    color: rgba(231,179,189,.6);
-    font-size: .8rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-  }
-
-  /* Card / question panel */
-  .card{
-    display:none;
-    width: min(420px, 90vw);
-    background: var(--paper);
-    border-radius: 10px;
-    padding: 40px 32px 32px;
-    text-align: center;
-    box-shadow: 0 30px 60px rgba(0,0,0,.5);
-    animation: rise .6s ease both;
-  }
-  .card.show{ display:block; }
-  @keyframes rise{
-    from{ opacity:0; transform: translateY(24px) scale(.97); }
-    to{ opacity:1; transform: translateY(0) scale(1); }
-  }
-
-  .card h1{
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-style: italic;
+    transition: height .7s cubic-bezier(.2,.8,.2,1) .3s, bottom .7s cubic-bezier(.2,.8,.2,1) .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Pacifico', cursive;
     color: var(--ink);
-    font-size: clamp(1.6rem, 4vw, 2.3rem);
-    margin: 0 0 10px;
-    line-height: 1.15;
+    font-size: 2rem;
+    opacity: 0;
   }
-  .card p.sub{
-    color: #8a7681;
-    font-size: .92rem;
-    margin: 0 0 30px;
-  }
-
-  .choices{
-    position: relative;
-    display:flex;
-    gap: 16px;
-    justify-content:center;
-    align-items:center;
-    min-height: 60px;
+  .envelope-wrap.opened .letter {
+    height: 220%;
+    bottom: 35%;
+    opacity: 1;
   }
 
-  button{
-    font-family: 'Jost', sans-serif;
+  .hint {
+    position: absolute;
+    bottom: -45px; left: 0; right: 0;
+    text-align: center;
+    color: var(--white);
+    opacity: 0.5;
+    font-size: .8rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    animation: pulsate 2s infinite;
+  }
+  @keyframes pulsate {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+  }
+
+  /* Glassmorphic Card */
+  .card {
+    display: none;
+    width: min(460px, 92vw);
+    background: var(--plum-card);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 45px 35px 40px;
+    text-align: center;
+    box-shadow: 
+      0 40px 80px -15px rgba(0,0,0,0.7),
+      inset 0 1px 1px rgba(255,255,255,0.05);
+    animation: riseOpening 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .card.show { display: block; }
+
+  @keyframes riseOpening {
+    from { opacity: 0; transform: translateY(40px) scale(.92); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .card h1 {
+    font-family: 'Cormorant Garamond', serif;
     font-weight: 500;
-    font-size: .95rem;
+    font-style: italic;
+    color: var(--white);
+    font-size: clamp(1.9rem, 5vw, 2.7rem);
+    margin: 0 0 15px;
+    line-height: 1.2;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.4);
+  }
+  .card p.sub {
+    color: var(--blush);
+    opacity: 0.9;
+    font-size: 1rem;
+    font-weight: 300;
+    margin: 0 0 35px;
+    letter-spacing: 0.02em;
+  }
+
+  .choices {
+    position: relative;
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    align-items: center;
+    min-height: 65px;
+  }
+
+  button {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
     border: none;
     border-radius: 999px;
-    padding: 13px 30px;
+    padding: 16px 36px;
     cursor: pointer;
-    transition: transform .15s ease, box-shadow .15s ease;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   }
-  .yes{
-    background: var(--ink);
-    color: var(--paper);
+
+  .yes {
+    background: linear-gradient(135deg, #ffe0e9, #ffc2d1);
+    color: #4a1523;
     letter-spacing: .02em;
+    box-shadow: 0 4px 20px rgba(255, 194, 209, 0.3);
   }
-  .yes:hover{ transform: translateY(-2px); box-shadow: 0 8px 18px rgba(56,39,51,.35); }
+  .yes:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 194, 209, 0.5);
+  }
 
-  .no{
-    background: transparent;
-    color: #a99aa3;
-    border: 1px solid #ddd0d6;
-    position: relative;
+  .no {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--blush);
+    border: 1px solid rgba(255, 204, 213, 0.2);
   }
-  .no.dodging{
+  .no:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .no.dodging {
     position: absolute;
+    transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s;
+    background: rgba(255, 255, 255, 0.15);
+    opacity: 0.8;
   }
 
-  /* Picker (where to go) */
-  .picker-grid{
-    display:grid;
+  /* Picker Grid (2 columns x 4 rows) */
+  .picker-grid {
+    display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 4px;
+    gap: 14px;
+    margin-top: 10px;
   }
-  .place{
-    background: #f2e9e0;
-    color: var(--ink);
-    border: 1px solid rgba(56,39,51,.1);
-    border-radius: 10px;
-    padding: 16px 10px;
-    font-size: .88rem;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap: 6px;
+  .place {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 16px 12px;
+    font-size: .95rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
   }
-  .place .emoji{ font-size: 1.4rem; }
-  .place:hover{ background: #e9dcce; transform: translateY(-2px); }
-  .place.picked{
-    background: var(--ink);
-    color: var(--paper);
+  .place .emoji { 
+    font-size: 1.8rem;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+    transition: transform 0.3s ease;
+  }
+  .place:hover {
+    background: rgba(255, 204, 213, 0.08);
+    border-color: rgba(255, 204, 213, 0.3);
+    transform: translateY(-4px);
+  }
+  .place:hover .emoji {
+    transform: scale(1.1);
+  }
+  .place.picked {
+    background: linear-gradient(135deg, #ffe0e9, #ffc2d1);
+    color: #4a1523;
+    border-color: transparent;
+    font-weight: 600;
+  }
+  .place.picked .emoji {
+    filter: drop-shadow(0 2px 5px rgba(255, 255, 255, 0.3));
   }
 
-  /* Success state */
-  .success{
-    display:none;
+  /* Success Card */
+  .success { display: none; }
+  .success.show { display: block; }
+  .success .heart-icon {
+    font-size: 4rem;
+    display: inline-block;
+    margin-bottom: 15px;
+    animation: heartBeat 1.5s infinite;
+    filter: drop-shadow(0 0 15px rgba(255, 105, 135, 0.6));
   }
-  .success.show{ display:block; }
-  .success h1{ color: var(--ink); }
-  .success .heart{
-    font-size: 2.4rem;
-    display:block;
-    margin-bottom: 6px;
+  @keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    15% { transform: scale(1.25); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+    60% { transform: scale(1); }
   }
 
-  .confetti{
-    position: fixed; top:-10px; font-size: 1.2rem;
+  .confetti {
+    position: fixed;
+    top: -20px;
+    font-size: 1.5rem;
     animation: fall linear forwards;
-    z-index: 5;
+    pointer-events: none;
+    z-index: 100;
   }
-  @keyframes fall{
-    to{ transform: translateY(105vh) rotate(360deg); opacity:.9; }
+  @keyframes fall {
+    to { transform: translateY(105vh) rotate(360deg); opacity: 0; }
   }
 
-  footer{
-    position:absolute; bottom: 14px; left:0; right:0;
-    text-align:center;
-    color: rgba(231,179,189,.35);
-    font-size: .7rem;
-    letter-spacing: .1em;
+  footer {
+    position: absolute;
+    bottom: 25px; left: 0; right: 0;
+    text-align: center;
+    color: var(--blush);
+    opacity: 0.4;
+    font-size: .8rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
   }
 </style>
 </head>
 <body>
 
+<div class="texture"></div>
 <div class="sky" id="sky"></div>
 
+<!-- Background Decor -->
+<script>
+  const decorEmojis = ['✨', '☁️', '💖', '🌟', '🌸', '💫'];
+  for (let i = 0; i < 15; i++) {
+    const el = document.createElement('div');
+    el.className = 'decor';
+    el.innerHTML = decorEmojis[Math.floor(Math.random() * decorEmojis.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.animationDuration = (10 + Math.random() * 15) + 's';
+    el.style.animationDelay = (Math.random() * -20) + 's';
+    document.body.appendChild(el);
+  }
+</script>
+
 <div class="stage">
-  <div class="prompt" id="prompt">you have a letter&hellip;</div>
+  <div class="prompt" id="prompt">You have a special letter! 💌</div>
 
   <div class="envelope-wrap" id="envelope" onclick="openEnvelope()">
     <div class="env-body"></div>
-    <div class="letter"></div>
+    <div class="letter"><span>Hi! 🌸</span></div>
     <div class="env-flap"></div>
-    <div class="hint">tap to open</div>
+    <div class="hint">Tap to open</div>
   </div>
 
   <div class="card" id="card">
-    <h1>Would you like to go on a date&nbsp;with me?</h1>
-    <p class="sub">No pressure &mdash; just an honest question.</p>
+    <h1>Would you like to go on a date with me? ✨</h1>
+    <p class="sub">No pressure &mdash; just an honest question! 😊</p>
     <div class="choices" id="choices">
-      <button class="yes" onclick="sayYes()">Yes, I'd love to</button>
+      <button class="yes" onclick="sayYes()">Yes, I'd love to! 🥰</button>
       <button class="no" id="noBtn" onmouseover="dodge(event)" onclick="dodge(event)" ontouchstart="dodge(event)">Not for me</button>
     </div>
   </div>
 
   <div class="card" id="picker">
-    <h1>Great &mdash; where should we go?</h1>
-    <p class="sub">Pick whatever sounds good, I'm flexible.</p>
+    <h1>Yay! 🎉 Where should we go?</h1>
+    <p class="sub">Pick whatever sounds best to you, gorgeous.</p>
     <div class="picker-grid">
-      <button class="place" onclick="pickPlace(this, 'coffee')"><span class="emoji">&#9749;</span>Coffee</button>
-      <button class="place" onclick="pickPlace(this, 'dinner')"><span class="emoji">&#127860;</span>Dinner</button>
-      <button class="place" onclick="pickPlace(this, 'a movie')"><span class="emoji">&#127916;</span>Movie</button>
-      <button class="place" onclick="pickPlace(this, 'a walk outside')"><span class="emoji">&#127795;</span>A walk</button>
+      <button class="place" onclick="pickPlace(this, 'coffee')"><span class="emoji">☕</span>Coffee & Cafe</button>
+      <button class="place" onclick="pickPlace(this, 'dinner')"><span class="emoji">🍽️</span>Nice Dinner</button>
+      <button class="place" onclick="pickPlace(this, 'drinks')"><span class="emoji">🍸</span>Cocktails</button>
+      <button class="place" onclick="pickPlace(this, 'boba or dessert')"><span class="emoji">🧋</span>Boba / Dessert</button>
+      <button class="place" onclick="pickPlace(this, 'a movie')"><span class="emoji">🎬</span>A Movie</button>
+      <button class="place" onclick="pickPlace(this, 'arcade or games')"><span class="emoji">🕹️</span>Arcade</button>
+      <button class="place" onclick="pickPlace(this, 'a walk outside')"><span class="emoji">🌿</span>Park Walk</button>
+      <button class="place" onclick="pickPlace(this, 'a surprise')"><span class="emoji">🎁</span>Surprise Me!</button>
     </div>
   </div>
 
   <div class="card success" id="success">
-    <span class="heart">&#10084;</span>
-    <h1>That's the best answer.</h1>
-    <p class="sub" id="successSub">I'll be in touch about when and where &mdash; can't wait.</p>
+    <span class="heart-icon">💖</span>
+    <h1>The best answer!</h1>
+    <p class="sub" id="successSub">I'll be in touch soon to make plans. Can't wait! 😍</p>
   </div>
 </div>
 
 <footer>made with a little courage</footer>
 
 <script type="module">
-  // ---- Firebase setup ----
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
   import {
     getFirestore, doc, setDoc, serverTimestamp
@@ -310,14 +481,13 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // one Firestore document per visitor session, updated as they interact
   const sessionId = 'resp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   const responseRef = doc(db, "responses", sessionId);
   let responseData = {
     opened: false,
     dodgeCount: 0,
-    answer: null,      // 'yes' once they accept
-    place: null,        // chosen place, once picked
+    answer: null,
+    place: null,
     startedAt: new Date().toISOString(),
     userAgent: navigator.userAgent
   };
@@ -331,18 +501,18 @@
     }
   }
 
-  // ---- ambient sparks ----
+  // Sky Sparks Generation
   const sky = document.getElementById('sky');
-  for(let i=0;i<28;i++){
+  for(let i=0; i<35; i++){
     const s = document.createElement('div');
     s.className = 'spark';
-    const size = Math.random()*3 + 1;
-    s.style.width = size+'px';
-    s.style.height = size+'px';
-    s.style.left = Math.random()*100+'%';
-    s.style.top = Math.random()*100+'%';
-    s.style.animationDelay = (Math.random()*4)+'s';
-    s.style.animationDuration = (3+Math.random()*3)+'s';
+    const size = Math.random()*3 + 1.5;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = Math.random()*100 + '%';
+    s.style.top = Math.random()*100 + '%';
+    s.style.animationDelay = (Math.random()*4) + 's';
+    s.style.animationDuration = (3 + Math.random()*4) + 's';
     sky.appendChild(s);
   }
 
@@ -367,14 +537,14 @@
     btn.classList.add('dodging');
 
     const maxX = rect.width - btn.offsetWidth;
-    const maxY = 40;
+    const maxY = 50; // Increased dodge range slightly
     const newX = Math.random()*maxX - maxX/2;
     const newY = (Math.random()*maxY) - maxY/2;
 
     btn.style.transform = `translate(${newX}px, ${newY}px)`;
 
     dodgeCount++;
-    const phrases = ["Not for me","Try again?","Nope, still no","Almost had it","So close","Keep trying?"];
+    const phrases = ["Not for me 😢", "Try again? 🤔", "Nope! 😋", "Almost! 😜", "So close! 🥺", "Keep trying! 💕"];
     btn.textContent = phrases[Math.min(dodgeCount, phrases.length-1)];
     saveResponse({ dodgeCount, lastNoAttempt: btn.textContent });
   }
@@ -383,38 +553,47 @@
     document.getElementById('card').classList.remove('show');
     document.getElementById('picker').classList.add('show');
     saveResponse({ answer: 'yes' });
+    burst(); // Initial burst of joy
   }
 
   function pickPlace(btn, label){
     document.querySelectorAll('.place').forEach(p => p.classList.remove('picked'));
     btn.classList.add('picked');
     document.getElementById('successSub').textContent =
-      `I'll be in touch about the details for ${label} \u2014 can't wait.`;
+      `I'll be in touch soon to make plans for ${label}. Can't wait! 😍`;
     saveResponse({ place: label });
     setTimeout(()=>{
       document.getElementById('picker').classList.remove('show');
       document.getElementById('success').classList.add('show');
-      burst();
-    }, 450);
+      finalBurst();
+    }, 500);
   }
 
+  // Small burst for saying Yes
   function burst(){
-    const hearts = ['&#10084;','&#10084;&#65039;','&#128149;','&#10022;'];
-    for(let i=0;i<40;i++){
+    createConfetti(['💖', '✨', '🌸'], 20);
+  }
+
+  // Big final burst
+  function finalBurst(){
+    createConfetti(['🎉', '💖', '✨', '🌸', '💫', '🌟'], 50);
+  }
+
+  function createConfetti(parts, count) {
+    for(let i=0; i<count; i++){
       setTimeout(()=>{
         const c = document.createElement('div');
         c.className = 'confetti';
-        c.innerHTML = hearts[Math.floor(Math.random()*hearts.length)];
-        c.style.left = Math.random()*100+'vw';
-        c.style.animationDuration = (2.5+Math.random()*2)+'s';
-        c.style.opacity = .6+Math.random()*.4;
+        c.innerHTML = parts[Math.floor(Math.random()*parts.length)];
+        c.style.left = Math.random()*100 + 'vw';
+        c.style.animationDuration = (2.5 + Math.random()*2.5) + 's';
+        c.style.opacity = .8 + Math.random()*.2;
         document.body.appendChild(c);
         setTimeout(()=>c.remove(), 5000);
-      }, i*60);
+      }, i*50);
     }
   }
 
-  // expose to global scope so the inline onclick="" attributes can find them
   window.openEnvelope = openEnvelope;
   window.dodge = dodge;
   window.sayYes = sayYes;
