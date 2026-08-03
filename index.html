@@ -290,8 +290,48 @@
 
 <footer>made with a little courage</footer>
 
-<script>
-  // ambient sparks
+<script type="module">
+  // ---- Firebase setup ----
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+  import {
+    getFirestore, doc, setDoc, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBQ4_G6J-GLgZFSo_Coud4ExjTsSMuaL3s",
+    authDomain: "date-b92d4.firebaseapp.com",
+    projectId: "date-b92d4",
+    storageBucket: "date-b92d4.firebasestorage.app",
+    messagingSenderId: "971309858228",
+    appId: "1:971309858228:web:b617fea82d2d62e0b646e1",
+    measurementId: "G-ZV118T4NF5"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // one Firestore document per visitor session, updated as they interact
+  const sessionId = 'resp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  const responseRef = doc(db, "responses", sessionId);
+  let responseData = {
+    opened: false,
+    dodgeCount: 0,
+    answer: null,      // 'yes' once they accept
+    place: null,        // chosen place, once picked
+    startedAt: new Date().toISOString(),
+    userAgent: navigator.userAgent
+  };
+
+  async function saveResponse(update){
+    responseData = { ...responseData, ...update, updatedAt: serverTimestamp() };
+    try{
+      await setDoc(responseRef, responseData, { merge: true });
+    }catch(err){
+      console.error("Firestore save failed:", err);
+    }
+  }
+
+  // ---- ambient sparks ----
   const sky = document.getElementById('sky');
   for(let i=0;i<28;i++){
     const s = document.createElement('div');
@@ -311,6 +351,7 @@
     if(env.classList.contains('opened')) return;
     env.classList.add('opened');
     document.getElementById('prompt').classList.add('hide');
+    saveResponse({ opened: true });
     setTimeout(()=>{
       env.style.display = 'none';
       document.getElementById('card').classList.add('show');
@@ -335,11 +376,13 @@
     dodgeCount++;
     const phrases = ["Not for me","Try again?","Nope, still no","Almost had it","So close","Keep trying?"];
     btn.textContent = phrases[Math.min(dodgeCount, phrases.length-1)];
+    saveResponse({ dodgeCount, lastNoAttempt: btn.textContent });
   }
 
   function sayYes(){
     document.getElementById('card').classList.remove('show');
     document.getElementById('picker').classList.add('show');
+    saveResponse({ answer: 'yes' });
   }
 
   function pickPlace(btn, label){
@@ -347,6 +390,7 @@
     btn.classList.add('picked');
     document.getElementById('successSub').textContent =
       `I'll be in touch about the details for ${label} \u2014 can't wait.`;
+    saveResponse({ place: label });
     setTimeout(()=>{
       document.getElementById('picker').classList.remove('show');
       document.getElementById('success').classList.add('show');
@@ -369,6 +413,12 @@
       }, i*60);
     }
   }
+
+  // expose to global scope so the inline onclick="" attributes can find them
+  window.openEnvelope = openEnvelope;
+  window.dodge = dodge;
+  window.sayYes = sayYes;
+  window.pickPlace = pickPlace;
 </script>
 </body>
 </html>
